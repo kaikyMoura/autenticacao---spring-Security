@@ -8,6 +8,7 @@ import com.lab.ecommercebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/users")
 public class UserController {
 
@@ -36,11 +38,6 @@ public class UserController {
         catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @GetMapping(value = "/test/getAll")
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok().body(userService.getAll());
     }
 
     @PostMapping
@@ -67,5 +64,10 @@ public class UserController {
     @GetMapping("/test/administrator")
     public ResponseEntity<String> getAdminAuthenticationTest() {
         return new ResponseEntity<>("Administrador autenticado com sucesso", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/test/getAll")
+    public ResponseEntity<List<User>> findAll() {
+        return ResponseEntity.ok().body(userService.getAll());
     }
 }
