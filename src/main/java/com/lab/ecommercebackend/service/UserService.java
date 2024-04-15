@@ -41,11 +41,9 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
     public RecoveryJwtTokenDto authenticateUser(LoginUserDto loginUserDto) {
         try {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            // Recupera o usuário pelo email fornecido
             User user = userRepository.findByEmail(loginUserDto.email())
                     .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o email: " + loginUserDto.email()));
 
-            // Verifica se a senha fornecida corresponde à senha armazenada (hash)
             if (!encoder.matches(loginUserDto.password(), user.getPassword())) {
                 throw new BadCredentialsException("Credenciais inválidas");
             }
