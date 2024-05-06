@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Component
-//@NonNullApi
 public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtTokenService;
@@ -35,6 +34,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
             if (checkIfEndpointIsNotPublic(request)) {
                 String token = recoveryToken(request);
                 if (token != null) {
@@ -51,6 +51,10 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             filterChain.doFilter(request, response);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String recoveryToken(HttpServletRequest request) {

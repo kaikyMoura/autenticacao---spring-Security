@@ -27,7 +27,8 @@ public class SecurityConfig {
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
             "/users/login",
-            "/users"
+            "/users",
+            "/h2-console"
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
@@ -52,7 +53,6 @@ public class SecurityConfig {
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                 .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
                 .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
-                .requestMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().denyAll()
                  .and().addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

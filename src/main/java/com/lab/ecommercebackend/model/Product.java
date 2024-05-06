@@ -12,38 +12,30 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
 
 @Entity
+@Getter @Setter
 @Table(name = "tbproduct")
 public class Product {
     @Id
-    @Getter @Setter
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
     private Long id;
 
-    @Getter @Setter
     @NotNull
     @Max(value = 150)
     private String name;
 
-    @Getter @Setter
     @NotNull
     @Max(value = 1000)
     private String description;
 
-    @Getter @Setter
     private String category;
 
-    @Getter @Setter
     private Integer stock_quantity;
 
-    @Getter @Setter
     private Double price;
 
     public Product() {

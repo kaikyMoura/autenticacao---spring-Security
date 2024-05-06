@@ -8,6 +8,7 @@ import com.lab.ecommercebackend.dto.RecoveryJwtTokenDto;
 import com.lab.ecommercebackend.enums.RoleName;
 import com.lab.ecommercebackend.model.Role;
 import com.lab.ecommercebackend.model.User;
+import com.lab.ecommercebackend.repository.IRoleRepository;
 import com.lab.ecommercebackend.repository.IUserRepository;
 import com.lab.ecommercebackend.security.JwtTokenService;
 import com.lab.ecommercebackend.security.SecurityConfig;
@@ -27,13 +28,16 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
 
     private final IUserRepository userRepository;
 
+    private final IRoleRepository roleRepository;
+
     private final JwtTokenService jwtTokenService;
 
     private final SecurityConfig securityConfig;
 
     @Autowired
-    public UserService(IUserRepository userRepositoy, JwtTokenService jwtTokenService, SecurityConfig securityConfig) {
+    public UserService(IUserRepository userRepositoy, IRoleRepository roleRepository, JwtTokenService jwtTokenService, SecurityConfig securityConfig) {
         this.userRepository = userRepositoy;
+        this.roleRepository = roleRepository;
         this.jwtTokenService = jwtTokenService;
         this.securityConfig = securityConfig;
     }
@@ -52,8 +56,7 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
             UserDetailsImpl userDetails = new UserDetailsImpl(user);
             String token = jwtTokenService.generateToken(userDetails);
             return new RecoveryJwtTokenDto(token);
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             throw new RuntimeException("Erro ao autenticar o usuário", exception);
         }
@@ -62,16 +65,17 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
     @Override
     public void create(CreateUserDto createUserDto) {
         try {
-            String role = createUserDto.role() == null ? "ROLE_CUSTOMER" : createUserDto.role().toString();
+            String requestRole = createUserDto.role() == null ? "ROLE_CUSTOMER" : createUserDto.role();
+
+            Role role = roleRepository.findByName(RoleName.valueOf(requestRole));
 
             userRepository.save(User.builder()
                     .id(UUID.randomUUID())
                     .email(createUserDto.email())
                     .password(securityConfig.passwordEncoder().encode(createUserDto.password()))
-                    .roles(List.of(Role.builder().name(RoleName.valueOf(role)).build()))
+                    .role(Role.builder().name(RoleName.valueOf(requestRole)).id(role.getId()).build())
                     .build());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao executar a operação", e);
         }
     }
@@ -81,8 +85,7 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
         try {
             this.getByID(id);
             userRepository.deleteById(id);
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             throw new Exception("Erro ao executar a operação!");
         }
     }
