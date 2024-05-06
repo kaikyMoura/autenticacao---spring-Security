@@ -2,7 +2,7 @@
 
 
 ## -- INTRODUÇÃO 
-Este projeto é o backend para o projeto projeto-vite-react, onde é tratada a autenticação e operações CRUD relacionadas aos usuários. 
+Este projeto é o backend para o projeto [projeto-vite-react](https://github.com/kaikyMoura/projeto-vite-react), onde é tratada a autenticação e operações CRUD relacionadas aos usuários. 
 
 O banco de dados utilizado é o MongoDB.
 
@@ -94,7 +94,7 @@ Instale as Dependências:
 - Você pode instalar as dependências executando o comando mvn install ou usando outra maneira de sua preferência. Algumas IDEs já executam este processo automaticamente.
 Instale o MongoDB:
 
-- Certifique-se de que o MongoDB esteja instalado e em execução. Você pode baixá-lo em https://www.mongodb.com/try/download/community.
+- Certifique-se de que o MongoDB esteja instalado e em execução. Você pode baixá-lo em (https://www.mongodb.com/try/download/community).
 Verifique o Arquivo ´application.properties´:
 
 No arquivo application.properties do projeto, as configurações da porta e do banco de dados MongoDB já estão predefinidas. 
