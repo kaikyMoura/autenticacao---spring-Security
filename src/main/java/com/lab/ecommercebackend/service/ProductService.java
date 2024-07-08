@@ -27,9 +27,8 @@ public class ProductService implements CrudDao<Product, Long> {
     }
 
     @Override
-    public void getByID(Long id) throws Exception {
-
-        productRepository.findById(id).orElseThrow(() -> new Exception("Id not found!"));
+    public Product getByID(Long id) throws Exception {
+        return productRepository.findById(id).orElseThrow(() -> new Exception("Id not found!"));
     }
 
     public Page<Product> getPageable(Pageable pageable) {

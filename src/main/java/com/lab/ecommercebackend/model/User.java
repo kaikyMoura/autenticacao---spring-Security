@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.Blob;
 import java.util.UUID;
 
 @ToString
@@ -38,11 +39,11 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @NotNull
     private String name;
 
-    @NotNull
     private String lastName;
+    
+    private Blob userImage;
 
     @NotNull
     private String password;

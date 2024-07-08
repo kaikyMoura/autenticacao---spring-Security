@@ -7,15 +7,20 @@ import com.lab.ecommercebackend.model.User;
 import com.lab.ecommercebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -41,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody CreateUserDto user) {
+    public ResponseEntity<Void> createUser(@RequestBody CreateUserDto user) {
         try {
             userService.create(user);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -56,17 +61,33 @@ public class UserController {
         return new ResponseEntity<>("Autenticado com sucesso", HttpStatus.OK);
     }
 
-    @GetMapping("/test/customer")
+    @GetMapping("/customer")
     public ResponseEntity<String> getCustomerAuthenticationTest() {
         return new ResponseEntity<>("Cliente autenticado com sucesso", HttpStatus.OK);
     }
-
-    @GetMapping("/test/administrator")
+    
+    //Apenas usuários com o role "ADMINISTRATOR" poderão acessar esses endpoints
+    @GetMapping("/administrator")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public ResponseEntity<String> getAdminAuthenticationTest() {
         return new ResponseEntity<>("Administrador autenticado com sucesso", HttpStatus.OK);
     }
+    
+    @DeleteMapping("/administrator/delete/{id}")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    public ResponseEntity<String> deleteUser(@PathVariable String id) throws Exception {
+    	try {
+    	UUID uuid = UUID.fromString(id);
+    	userService.deleteById(uuid);
+        return new ResponseEntity<>("Usuário deletado com sucesso!", HttpStatus.ACCEPTED);
+    	}
+    	catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+    }
 
-    @GetMapping(value = "/test/getAll")
+    @GetMapping(value = "/administrator/getAll")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public ResponseEntity<List<User>> findAll() {
         return ResponseEntity.ok().body(userService.getAll());
     }

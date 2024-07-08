@@ -11,16 +11,17 @@ import java.util.Collections;
 
 @Getter //Pode ser um record
 public class UserDetailsImpl implements UserDetails {
-
-    private final User user;
+	private static final long serialVersionUID = 1L;
+	
+	private final User user;
 
     public UserDetailsImpl(User user) {
     this.user = user;
     }
 
-    @Override
+    @Override //Garante a "autoridade" do usuário através do seu role
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()));
+        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getName().toString()));
     }
 
     @Override
@@ -28,10 +29,15 @@ public class UserDetailsImpl implements UserDetails {
         return user.getPassword();
     }
 
-    @Override
-    public String getUsername() {
+    //Só fiz essa diferenciação para fins didatics
+    public String getEmail() {
         return user.getEmail();
     }
+    
+    @Override
+	public String getUsername() {
+		return user.getName();
+	}
 
     @Override
     public boolean isAccountNonExpired() {

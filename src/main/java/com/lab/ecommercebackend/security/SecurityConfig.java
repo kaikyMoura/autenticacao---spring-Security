@@ -27,34 +27,33 @@ public class SecurityConfig {
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
             "/users/login",
-            "/users",
-            "/h2-console"
+            "/users"
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
             "/users/test",
-            "/users/test/getAll"
+            
     };
 
     public static final String [] ENDPOINTS_CUSTOMER = {
-            "/users/test/customer"
+            "/users/customer"
     };
 
     public static final String [] ENDPOINTS_ADMIN = {
-            "/users/test/administrator"
+            "/users/administrator",
+            "/users/administrator/getAll",
+            "/users/administrator/delete/**"
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeHttpRequests()
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf(csrf -> csrf.disable())
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(requests -> requests
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                 .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
                 .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
-                .anyRequest().denyAll()
-                 .and().addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .anyRequest().denyAll()).addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -64,7 +63,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+	public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
