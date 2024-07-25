@@ -1,7 +1,6 @@
 package com.lab.ecommercebackend.security;
 
 import com.lab.ecommercebackend.filters.UserAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,18 +19,17 @@ public class SecurityConfig {
 
     private final UserAuthenticationFilter userAuthenticationFilter;
 
-    @Autowired
     public SecurityConfig(UserAuthenticationFilter userAuthenticationFilter) {
         this.userAuthenticationFilter = userAuthenticationFilter;
     }
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/users/login",
+    		"/users/login",
             "/users"
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/users/test",
+            "/users/auth/getUser",
             
     };
 
@@ -47,8 +45,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(csrf -> csrf.disable())
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(requests -> requests
+    	return httpSecurity.csrf((csrf) -> csrf.disable())
+    			.headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(requests -> requests
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                 .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                 .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")

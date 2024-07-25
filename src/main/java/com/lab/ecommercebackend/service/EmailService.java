@@ -1,4 +1,4 @@
-package com.lab.ecommercebackend.service;
+/* package com.lab.ecommercebackend.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,3 +45,4 @@ public class EmailService {
 		}
     }
 }
+*/

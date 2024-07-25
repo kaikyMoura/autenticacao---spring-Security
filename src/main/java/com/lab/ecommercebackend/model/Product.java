@@ -1,8 +1,11 @@
 package com.lab.ecommercebackend.model;
 
-import com.lab.ecommercebackend.dto.ProductDto;
+import java.util.Objects;
+
+import org.hibernate.Hibernate;
+
 import com.lab.ecommercebackend.enums.ProductCategory;
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,9 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
-
-import java.util.Objects;
 
 @Entity
 @NotNull

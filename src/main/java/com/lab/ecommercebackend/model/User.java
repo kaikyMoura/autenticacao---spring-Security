@@ -19,8 +19,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Blob;
 import java.util.UUID;
+
+import io.micrometer.common.lang.Nullable;
 
 @ToString
 @Builder
@@ -43,7 +44,8 @@ public class User {
 
     private String lastName;
     
-    private Blob userImage;
+    @Nullable
+    private String userImage;
 
     @NotNull
     private String password;

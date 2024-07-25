@@ -3,9 +3,11 @@ package com.lab.ecommercebackend.controller;
 import com.lab.ecommercebackend.dto.CreateUserDto;
 import com.lab.ecommercebackend.dto.LoginUserDto;
 import com.lab.ecommercebackend.dto.RecoveryJwtTokenDto;
+import com.lab.ecommercebackend.dto.RecoveryUserDto;
 import com.lab.ecommercebackend.model.User;
 import com.lab.ecommercebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +67,12 @@ public class UserController {
     public ResponseEntity<String> getCustomerAuthenticationTest() {
         return new ResponseEntity<>("Cliente autenticado com sucesso", HttpStatus.OK);
     }
+    
+    @GetMapping("/auth/getUser")
+    public ResponseEntity<RecoveryUserDto> getUser(@Param(value = "email") String email) {
+    	return ResponseEntity.ok().body(userService.getUser(email));
+    }
+    
     
     //Apenas usuários com o role "ADMINISTRATOR" poderão acessar esses endpoints
     @GetMapping("/administrator")

@@ -3,7 +3,6 @@ package com.lab.ecommercebackend.service;
 import com.lab.ecommercebackend.dao.CrudDao;
 import com.lab.ecommercebackend.model.Product;
 import com.lab.ecommercebackend.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ public class ProductService implements CrudDao<Product, Long> {
 
     private final ProductRepository productRepository;
 
-    @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }

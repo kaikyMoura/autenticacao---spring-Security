@@ -9,7 +9,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +40,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         	            String token = recoveryToken(request);
         	            
         	            if (token != null) {
-        	            	//Se o token não for nulo, ele irá recuperar o usuário atravs do token
+        	            	//Se o token não for nulo, ele irá recuperar o usuário através do token
         	                String subject = jwtTokenService.getSubjectFromToken(token);
         	                Optional<User> optionalUser = userRepository.findByEmail(subject);
 
@@ -87,7 +86,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
-        return !Arrays.asList(SecurityConfig.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).contains(request.getRequestURI());
+        return !Arrays.stream(SecurityConfig.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED)
+                .anyMatch(pattern -> request.getRequestURI().matches(pattern.replace("**", ".*")));
     }
     
     private boolean requiresAdminAccess(HttpServletRequest request) {

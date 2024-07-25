@@ -16,6 +16,7 @@ import com.lab.ecommercebackend.dataAcess.UserDetailsImpl;
 import com.lab.ecommercebackend.dto.CreateUserDto;
 import com.lab.ecommercebackend.dto.LoginUserDto;
 import com.lab.ecommercebackend.dto.RecoveryJwtTokenDto;
+import com.lab.ecommercebackend.dto.RecoveryUserDto;
 import com.lab.ecommercebackend.enums.RoleName;
 import com.lab.ecommercebackend.model.Role;
 import com.lab.ecommercebackend.model.User;
@@ -31,17 +32,16 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
 
     private final IRoleRepository roleRepository;
 
-    private final EmailService emailService;
+    //private final EmailService emailService;
 
     private final JwtTokenService jwtTokenService;
 
     private final SecurityConfig securityConfig;
 
     @Autowired
-    public UserService(IUserRepository userRepositoy, IRoleRepository roleRepository, EmailService emailService, JwtTokenService jwtTokenService, SecurityConfig securityConfig) {
+    public UserService(IUserRepository userRepositoy, IRoleRepository roleRepository, JwtTokenService jwtTokenService, SecurityConfig securityConfig) {
         this.userRepository = userRepositoy;
         this.roleRepository = roleRepository;
-        this.emailService = emailService;
         this.jwtTokenService = jwtTokenService;
         this.securityConfig = securityConfig;
     }
@@ -87,7 +87,7 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
                     .role(Role.builder().name(RoleName.valueOf(requestRole)).id(role.getId()).build())
                     .build());
             
-           emailService.enviarEmail(createUserDto.email());
+           // emailService.enviarEmail(createUserDto.email());
         } catch (Exception e) {
             throw new RuntimeException("Erro ao executar a operação", e);
         }
@@ -110,6 +110,11 @@ public class UserService implements CrudDao<CreateUserDto, UUID> {
     @Override
     public Object getByID(UUID id) throws Exception {
     	return userRepository.findById(id).orElseThrow(() -> new Exception("Usuário não encontrado!"));
+    }
+    
+    public RecoveryUserDto getUser(String email) {
+    	User user = userRepository.findByEmail(email).get();
+    	return new RecoveryUserDto(user.getName(), user.getLastName(), user.getUserImage(),user.getEmail());
     }
 
     public List<User> getAll() {

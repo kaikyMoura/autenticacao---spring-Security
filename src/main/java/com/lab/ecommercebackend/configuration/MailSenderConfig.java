@@ -1,4 +1,4 @@
-package com.lab.ecommercebackend.configuration;
+/*package com.lab.ecommercebackend.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import java.util.Properties;
 public class MailSenderConfig {
 	
 	 	@Value("${spring.mail.host}")
-	    private String host;
+	    private String host;/
 
 	    @Value("${spring.mail.port}")
 	    private int port;
@@ -44,3 +44,4 @@ public class MailSenderConfig {
         return mailSender;
     }
 }
+*/
