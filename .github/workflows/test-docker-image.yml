@@ -38,5 +38,5 @@ jobs:
 
     - name: Clean up
       run: |
-        docker stop my-container
-        docker rm my-container
+        docker stop SecurityVault
+        docker rm SecurityVault
