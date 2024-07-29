@@ -103,3 +103,5 @@ No entanto, é importante verificar se não há nada que possa entrar em conflit
 ## - DEPLOY 
 
 O projeto já está rodando no ambiente do Railway, permitindo algumas ações básicas.
+
+Por estar usando um banco em memória, os dados persistidos só são mantidos enquanto o modulo está em execução.
