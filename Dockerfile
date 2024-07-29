@@ -1,5 +1,8 @@
 FROM azul/zulu-openjdk:21 AS build
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y maven
+
 COPY . .
 RUN mvn clean package
 
