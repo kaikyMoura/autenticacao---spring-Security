@@ -29,10 +29,9 @@ As seguintes dependências estão sendo utilizadas:
   Esta dependência facilita o uso de JPA (Java Persistence API) no Spring Boot, fornecendo configurações padrão, entidades JPA e suporte a repositórios. 
   Isso simplifica a implementação de operações CRUD (Create, Read, Update, Delete) com bancos de dados relacionais.
 
-- spring-boot-starter-data-mongodb:
+- h2-database:
 
-  Essa dependência permite a integração do Spring Boot com o MongoDB, um banco de dados NoSQL orientado a documentos. 
-  Ela fornece suporte para operações de acesso a dados usando o Spring Data MongoDB.
+  O H2 é um banco de dados relacional leve e rápido, escrito em Java, ideal para desenvolvimento e testes. Ele suporta modos em memória e persistente, oferecendo um console web embutido   para administração.
 
 - spring-boot-starter-security:
 
@@ -99,3 +98,8 @@ Verifique o Arquivo ´application.properties´:
 
 No arquivo application.properties do projeto, as configurações da porta e do banco de dados MongoDB já estão predefinidas. 
 No entanto, é importante verificar se não há nada que possa entrar em conflito com essas configurações, como a porta já estar sendo utilizada por outro serviço.
+
+
+## - DEPLOY 
+
+O projeto já está rodando no ambiente do Railway, permitindo algumas ações básicas.
