@@ -2,7 +2,7 @@
 
 
 ## -- INTRODUÇÃO 
-Este projeto é o backend para o projeto [projeto-vite-react](https://github.com/kaikyMoura/projeto-vite-react), onde é tratada a autenticação e operações CRUD relacionadas aos usuários. 
+Este projeto é para estudos de integração com spring-security
 
 O banco de dados utilizado é o MongoDB.
 
